@@ -26,3 +26,17 @@
 >  - \<input type="text" th:field="*{itemName}" />
 >- 랜더링 후
 >  - \<input type="text" id="itemName" name="itemName" th:value="*{itemName}" />
+
+### 체크 박스
+>- 기존 방식
+>  - HTML checkbox는 선택이 안되면 클라이언트에서 서버로 값 자체를 보내지 않음
+>  - 수정의 경우에는 상황에 따라서 해당 방식이 문제점이 될 수 있음
+>  - 사용자가 의도적으로 체크되어 있던 값을 체크를 해제해도 저장시 아무런 값도 넘어가지 않는 상황이 발생하면 서버 구현에 따라서 값이 오지않은 것으로 판단하여 값을 변경하지 않음
+>  - 해당 방식을 해결하기 위해 스프링 MVC는 히든 필드를 하나 만들어서 전송함
+>- 히든 필드 방식
+>  - \<input type="hidden" name="_open" value="on"/>
+>  - 체크 박스 체크
+>    - open=on&_open=on (= 스프링 MVC가 open에 값이 있는 것을 확인하고 true로 변환, 이때 _open은 무시)
+>  - 체크 박스 미체크
+>    - _open=on (= 스프링 MVC가 _open만 있는 것을 확인하고, open의 값이 체크되지 않았다고 인식)
+>    - 해당 경우는 서버에서 Boolean 타입을 찍어보면 null이 아니라 false로 값이 넘어온걸로 확인 할 수있음
